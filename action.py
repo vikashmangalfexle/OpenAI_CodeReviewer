@@ -85,6 +85,7 @@ if __name__ == "__main__":
     event_path = os.getenv("GITHUB_EVENT_PATH")
     pr_details = get_pr_details(event_path)
     diff = get_diff(pr_details["owner"], pr_details["repo"], pr_details["pull_number"])
-    comments = analyze_code(diff, pr_details)
-    if comments:
-        create_review_comment(pr_details["owner"], pr_details["repo"], pr_details["pull_number"], comments)
+    create_review_comment(pr_details["owner"], pr_details["repo"], pr_details["pull_number"], diff)
+    #comments = analyze_code(diff, pr_details)
+    #if comments:
+    #    create_review_comment(pr_details["owner"], pr_details["repo"], pr_details["pull_number"], comments)
