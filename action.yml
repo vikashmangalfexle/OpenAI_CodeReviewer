@@ -1,0 +1,20 @@
+name: 'OpenAI PR Review'
+description: 'A GitHub Action that reviews PRs using OpenAI API'
+
+inputs:
+  GITHUB_TOKEN:
+    description: 'GitHub Token'
+    required: true
+  OPENAI_API_KEY:
+    description: 'OpenAI API key'
+    required: true
+  OPENAI_MODEL:
+    description: 'OpenAI model deployment name'
+    required: true
+  OPENAI_ENDPOINT:
+    description: 'OpenAI API endpoint'
+    required: true
+
+runs:
+  using: 'python'
+  main: 'action.py'
