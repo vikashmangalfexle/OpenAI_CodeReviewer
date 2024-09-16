@@ -28,12 +28,12 @@ runs:
         pip install -r ${{ github.action_path }}/requirements.txt
       shell: bash
       
+    - name: Run the OpenAI PR Review script
+      run: python ${{ github.action_path }}/action.py
       env:
         PAT_TOKEN: ${{ inputs.PAT_TOKEN }}
         OPENAI_API_KEY: ${{ inputs.OPENAI_API_KEY }}
         OPENAI_MODEL: ${{ inputs.OPENAI_MODEL }}
         OPENAI_ENDPOINT: ${{ inputs.OPENAI_ENDPOINT }}
-    - name: Run the OpenAI PR Review script
-      run: python ${{ github.action_path }}/action.py
       shell: bash
      
