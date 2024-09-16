@@ -8,6 +8,10 @@ OPENAI_MODEL = os.getenv("OPENAI_MODEL")
 OPENAI_ENDPOINT = os.getenv("OPENAI_ENDPOINT")
 
 GITHUB_API_URL = "https://api.github.com"
+print(f"GITHUB_TOKEN: {GITHUB_TOKEN}")
+print(f"OPENAI_API_KEY: {OPENAI_API_KEY}")
+print(f"OPENAI_MODEL: {OPENAI_MODEL}")
+print(f"OPENAI_ENDPOINT: {OPENAI_ENDPOINT}")
 
 def get_pr_details(event_path):
     with open(event_path, "r") as f:
