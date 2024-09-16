@@ -83,6 +83,7 @@ def create_review_comment(owner, repo, pull_number, comments):
 
 if __name__ == "__main__":
     event_path = os.getenv("GITHUB_EVENT_PATH")
+    print(event_path)
     pr_details = get_pr_details(event_path)
     diff = get_diff(pr_details["owner"], pr_details["repo"], pr_details["pull_number"])
     create_review_comment(pr_details["owner"], pr_details["repo"], pr_details["pull_number"], diff)
