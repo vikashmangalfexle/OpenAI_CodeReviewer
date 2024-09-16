@@ -36,7 +36,7 @@ runs:
         OPENAI_API_KEY: ${{ inputs.OPENAI_API_KEY }}
         OPENAI_MODEL: ${{ inputs.OPENAI_MODEL }}
         OPENAI_ENDPOINT: ${{ inputs.OPENAI_ENDPOINT }}
-      shell: bash
     - name: Run the OpenAI PR Review script
       run: python ${{ github.action_path }}/action.py
-     
+      shell: bash
+
