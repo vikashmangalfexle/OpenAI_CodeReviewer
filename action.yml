@@ -28,7 +28,8 @@ runs:
         pip install -r ${{ github.action_path }}/requirements.txt
       shell: bash
       
-    - name: Pass Inputs to Shell
+    - name: Run the OpenAI PR Review script
+      run: python ${{ github.action_path }}/action.py
       shell: bash
       env:
         INPUT_WHO_TO_GREET: ${{ inputs.who-to-greet }}
@@ -36,7 +37,4 @@ runs:
         OPENAI_API_KEY: ${{ inputs.OPENAI_API_KEY }}
         OPENAI_MODEL: ${{ inputs.OPENAI_MODEL }}
         OPENAI_ENDPOINT: ${{ inputs.OPENAI_ENDPOINT }}
-    - name: Run the OpenAI PR Review script
-      run: python ${{ github.action_path }}/action.py
-      shell: bash
 
