@@ -30,6 +30,7 @@ runs:
     - name: print
       run: |
         echo ${{inputs.OPENAI_MODEL}}
+      shell: bash
       
     - name: Run the OpenAI PR Review script
       run: python ${{github.action_path}}/action.py
