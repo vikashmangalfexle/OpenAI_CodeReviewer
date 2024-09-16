@@ -15,7 +15,7 @@ def get_pr_details(event_path):
 
     repository = event_data["repository"]
     pull_request = event_data["number"]
-
+    print(GITHUB_TOKEN)
     print(f"Repository: {repository['full_name']}")
     print(f"Pull Request Number: {pull_request}")
 
