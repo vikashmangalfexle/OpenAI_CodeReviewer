@@ -21,7 +21,7 @@ def get_pr_details(event_path):
 
     repo_full_name = repository["full_name"]
     url = f"{GITHUB_API_URL}/repos/{repo_full_name}/pulls/{pull_request}"
-    headers = {"Authorization": f"Bearer {GITHUB_TOKEN}","Accept": "application/vnd.github+json"}
+    headers = {"Authorization": f"Bearer {GITHUB_TOKEN}","Accept": "application/vnd.github+json","X-GitHub-Api-Version": "2022-11-28"}
 
     response = requests.get(url, headers=headers)
     if response.status_code != 200:
