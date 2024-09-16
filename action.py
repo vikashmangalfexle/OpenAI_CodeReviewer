@@ -127,7 +127,12 @@ if __name__ == "__main__":
     
     pr_details = get_pr_details(event_path)
     diff = get_diff(pr_details["owner"], pr_details["repo"], pr_details["pull_number"])
-    create_review_comment(pr_details["owner"], pr_details["repo"], pr_details["pull_number"], diff)
+    test_comments = [{
+            "body": "Test Ai code Review,
+            "path": "Test",
+            "line": 2
+        }]
+    create_review_comment(pr_details["owner"], pr_details["repo"], pr_details["pull_number"],test_comments)
 
     # comments = analyze_code(diff, pr_details)
     # if comments:
