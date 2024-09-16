@@ -20,6 +20,9 @@ runs:
   steps:
     - name: Check out the action repository
       uses: actions/checkout@v3
+    - name: List directory
+      run: ls -la
+      shell: bash
     - name: Set up Python environment
       run: |
         python -m venv .venv
