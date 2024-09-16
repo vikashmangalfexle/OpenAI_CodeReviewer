@@ -101,7 +101,7 @@ def create_review_comment(owner, repo, pull_number, comments):
     }
     review_body = {
         "event": "COMMENT",
-        "body": "Automated code review comments",
+        "body": "Automated code review by OpenAI",
         "comments": comments
     }
     
