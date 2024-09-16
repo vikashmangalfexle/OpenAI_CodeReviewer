@@ -34,12 +34,14 @@ runs:
         echo "OPENAI_MODEL=${{ inputs.OPENAI_MODEL }}"
         echo "OPENAI_ENDPOINT=${{ inputs.OPENAI_ENDPOINT }}"
       shell: bash
+    - name: Pass Inputs to Shell
+      run: |
+        echo "GITHUB_TOKEN=${{ inputs.PAT_TOKEN }}" >> $GITHUB_ENV
+        echo "OPENAI_API_KEY=${{ inputs.OPENAI_API_KEY }}" >> $GITHUB_ENV
+        echo "OPENAI_MODEL=${{ inputs.OPENAI_MODEL }}" >> $GITHUB_ENV
+        echo "OPENAI_ENDPOINT=${{ inputs.OPENAI_ENDPOINT }}" >> $GITHUB_ENV
+      shell: bash
     - name: Run the OpenAI PR Review script
       run: python ${{ github.action_path }}/action.py
-      env:
-        PAT_TOKEN: ${{ inputs.PAT_TOKEN }}
-        OPENAI_API_KEY: ${{ inputs.OPENAI_API_KEY }}
-        OPENAI_MODEL: ${{ inputs.OPENAI_MODEL }}
-        OPENAI_ENDPOINT: ${{ inputs.OPENAI_ENDPOINT }}
       shell: bash
      
