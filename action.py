@@ -15,7 +15,7 @@ github = Github(GITHUB_TOKEN)
 def get_pr_details(event_path):
     with open(event_path, "r") as f:
         event_data = json.load(f)
-
+        print(event_data)
     repository = event_data["repository"]
     pull_request = event_data["number"]
 
