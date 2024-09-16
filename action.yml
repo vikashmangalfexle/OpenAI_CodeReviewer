@@ -27,12 +27,15 @@ runs:
         python -m pip install --upgrade pip
         pip install -r ${{ github.action_path }}/requirements.txt
       shell: bash
+      
     - name: Pass Inputs to Shell
-      run: |
-        echo "PAT_TOKEN=${{ inputs.PAT_TOKEN }}" >> $GITHUB_ENV
-        echo "OPENAI_API_KEY=${{ inputs.OPENAI_API_KEY }}" >> $GITHUB_ENV
-        echo "OPENAI_MODEL=${{ inputs.OPENAI_MODEL }}" >> $GITHUB_ENV
-        echo "OPENAI_ENDPOINT=${{ inputs.OPENAI_ENDPOINT }}" >> $GITHUB_ENV
+      shell: bash
+      env:
+        INPUT_WHO_TO_GREET: ${{ inputs.who-to-greet }}
+        PAT_TOKEN: ${{ inputs.PAT_TOKEN }}
+        OPENAI_API_KEY: ${{ inputs.OPENAI_API_KEY }}
+        OPENAI_MODEL: ${{ inputs.OPENAI_MODEL }}
+        OPENAI_ENDPOINT: ${{ inputs.OPENAI_ENDPOINT }}
       shell: bash
     - name: Run the OpenAI PR Review script
       run: python ${{ github.action_path }}/action.py
