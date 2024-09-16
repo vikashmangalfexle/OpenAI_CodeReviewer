@@ -32,7 +32,7 @@ runs:
       run: python ${{github.action_path}}/action.py
       shell: bash
       env:
-        PAT_TOKEN: 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
+        PAT_TOKEN: 'Hello test'
         OPENAI_API_KEY: ${{inputs.OPENAI_API_KEY}}
         OPENAI_MODEL: ${{inputs.OPENAI_MODEL}}
         OPENAI_ENDPOINT: ${{inputs.OPENAI_ENDPOINT}}
