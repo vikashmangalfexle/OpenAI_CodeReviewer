@@ -1,16 +1,13 @@
 import os
 import json
 import requests
-from github import Github
-import openai
 
 GITHUB_TOKEN = os.getenv("GITHUB_TOKEN")
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 OPENAI_MODEL = os.getenv("OPENAI_MODEL")
 OPENAI_ENDPOINT = os.getenv("OPENAI_ENDPOINT")
 
-# Authenticate with GitHub using the token
-github = Github(GITHUB_TOKEN)
+GITHUB_API_URL = "https://api.github.com"
 
 def get_pr_details(event_path):
     with open(event_path, "r") as f:
@@ -22,31 +19,37 @@ def get_pr_details(event_path):
     print(f"Repository: {repository['full_name']}")
     print(f"Pull Request Number: {pull_request}")
 
-    try:
-        pr = github.get_repo(repository["full_name"]).get_pull(pull_request)
-    except Exception as e:
-        print(f"Error retrieving pull request: {e}")
-        raise
+    repo_full_name = repository["full_name"]
+    url = f"{GITHUB_API_URL}/repos/{repo_full_name}/pulls/{pull_request}"
+    headers = {"Authorization": f"token {GITHUB_TOKEN}"}
 
+    response = requests.get(url, headers=headers)
+    if response.status_code != 200:
+        raise Exception(f"Error retrieving pull request: {response.json()}")
+
+    pr = response.json()
     return {
         "owner": repository["owner"]["login"],
         "repo": repository["name"],
         "pull_number": pull_request,
-        "title": pr.title,
-        "description": pr.body or ""
+        "title": pr.get("title", ""),
+        "description": pr.get("body", "")
     }
 
-
 def get_diff(owner, repo, pull_number):
-    repo = github.get_repo(f"{owner}/{repo}")
-    pr = repo.get_pull(pull_number)
-    diff = pr.get_files()
-    return diff
+    url = f"{GITHUB_API_URL}/repos/{owner}/{repo}/pulls/{pull_number}/files"
+    headers = {"Authorization": f"token {GITHUB_TOKEN}"}
+
+    response = requests.get(url, headers=headers)
+    if response.status_code != 200:
+        raise Exception(f"Error retrieving diff: {response.json()}")
+
+    return response.json()
 
 def analyze_code(diff, pr_details):
     comments = []
     for file in diff:
-        if file.status == 'removed':
+        if file.get("status") == 'removed':
             continue
         # Assume Azure OpenAI API call for code review:
         prompt = create_prompt(file, pr_details)
@@ -59,7 +62,7 @@ def create_prompt(file, pr_details):
     return f"""Your task is to review pull requests...
     Title: {pr_details['title']}
     Description: {pr_details['description']}
-    Diff to review: {file.patch}"""
+    Diff to review: {file.get("patch", "")}"""
 
 def get_ai_response(prompt):
     headers = {
@@ -78,23 +81,50 @@ def get_ai_response(prompt):
     return result.get("choices", [])[0].get("text")
 
 def create_comment(file, ai_response):
+    # Adjust line number and comment text as needed
     return {
-        "path": file.filename,
+        "path": file["filename"],
         "body": ai_response,
-        "line": file.patch.splitlines()[0]  # Example: just taking the first line as the target
+        "line": 1  # Placeholder line number; adjust as needed
     }
 
 def create_review_comment(owner, repo, pull_number, comments):
-    pr = github.get_repo(f"{owner}/{repo}").get_pull(pull_number)
+    url = f"{GITHUB_API_URL}/repos/{owner}/{repo}/pulls/{pull_number}/reviews"
+    headers = {
+        "Authorization": f"token {GITHUB_TOKEN}",
+        "Accept": "application/vnd.github.v3+json"
+    }
+    review_body = {
+        "event": "COMMENT",
+        "body": "Automated code review comments"
+    }
+    
+    response = requests.post(url, headers=headers, json=review_body)
+    if response.status_code != 200:
+        raise Exception(f"Error creating review: {response.json()}")
+    
+    review_id = response.json().get("id")
+
     for comment in comments:
-        pr.create_review_comment(comment["body"], comment["path"], comment["line"])
+        comment_url = f"{url}/{review_id}/comments"
+        comment_body = {
+            "body": comment["body"],
+            "path": comment["path"],
+            "line": comment["line"]
+        }
+        response = requests.post(comment_url, headers=headers, json=comment_body)
+        if response.status_code != 201:
+            print(f"Error adding comment: {response.json()}")
 
 if __name__ == "__main__":
     event_path = os.getenv("GITHUB_EVENT_PATH")
-    print(event_path)
+    if not event_path:
+        raise ValueError("GITHUB_EVENT_PATH environment variable is not set")
+    
     pr_details = get_pr_details(event_path)
     diff = get_diff(pr_details["owner"], pr_details["repo"], pr_details["pull_number"])
     create_review_comment(pr_details["owner"], pr_details["repo"], pr_details["pull_number"], diff)
-    #comments = analyze_code(diff, pr_details)
-    #if comments:
-    #    create_review_comment(pr_details["owner"], pr_details["repo"], pr_details["pull_number"], comments)
+
+    # comments = analyze_code(diff, pr_details)
+    # if comments:
+    #     create_review_comment(pr_details["owner"], pr_details["repo"], pr_details["pull_number"], comments)
