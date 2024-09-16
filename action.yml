@@ -32,7 +32,6 @@ runs:
       run: python ${{ github.action_path }}/action.py
       shell: bash
       env:
-        INPUT_WHO_TO_GREET: ${{ inputs.who-to-greet }}
         PAT_TOKEN: ${{ inputs.PAT_TOKEN }}
         OPENAI_API_KEY: ${{ inputs.OPENAI_API_KEY }}
         OPENAI_MODEL: ${{ inputs.OPENAI_MODEL }}
