@@ -18,27 +18,21 @@ inputs:
 runs:
   using: 'composite'
   steps:
-    - name: Check out the action repository
-      uses: actions/checkout@v3
-      
     - name: Set up Python
       uses: actions/setup-python@v5
       with:
         python-version: 3.11
-    - name: List files
-      run: ls -la
-      shell: bash
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
         pip install -r ${{ github.action_path }}/requirements.txt
       shell: bash
-
-    - name: Run the OpenAI PR Review script
-      run: python ${{ github.action_path }}/action.py
+      
       env:
         GITHUB_TOKEN: ${{ inputs.GITHUB_TOKEN }}
         OPENAI_API_KEY: ${{ inputs.OPENAI_API_KEY }}
         OPENAI_MODEL: ${{ inputs.OPENAI_MODEL }}
         OPENAI_ENDPOINT: ${{ inputs.OPENAI_ENDPOINT }}
-      shell: bash
+    - name: Run the OpenAI PR Review script
+      run: python ${{ github.action_path }}/action.py
+     
