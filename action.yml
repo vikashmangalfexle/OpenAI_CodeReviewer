@@ -27,16 +27,9 @@ runs:
         python -m pip install --upgrade pip
         pip install -r ${{ github.action_path }}/requirements.txt
       shell: bash
-    - name: Debug Environment Variables
-      run: |
-        echo "GITHUB_TOKEN=${{ inputs.PAT_TOKEN }}"
-        echo "OPENAI_API_KEY=${{ inputs.OPENAI_API_KEY }}"
-        echo "OPENAI_MODEL=${{ inputs.OPENAI_MODEL }}"
-        echo "OPENAI_ENDPOINT=${{ inputs.OPENAI_ENDPOINT }}"
-      shell: bash
     - name: Pass Inputs to Shell
       run: |
-        echo "GITHUB_TOKEN=${{ inputs.PAT_TOKEN }}" >> $GITHUB_ENV
+        echo "PAT_TOKEN=${{ inputs.PAT_TOKEN }}" >> $GITHUB_ENV
         echo "OPENAI_API_KEY=${{ inputs.OPENAI_API_KEY }}" >> $GITHUB_ENV
         echo "OPENAI_MODEL=${{ inputs.OPENAI_MODEL }}" >> $GITHUB_ENV
         echo "OPENAI_ENDPOINT=${{ inputs.OPENAI_ENDPOINT }}" >> $GITHUB_ENV
