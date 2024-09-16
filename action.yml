@@ -27,10 +27,6 @@ runs:
         python -m pip install --upgrade pip
         pip install -r ${{github.action_path}}/requirements.txt
       shell: bash
-    - name: print
-      run: |
-        echo ${{inputs.OPENAI_MODEL}}
-      shell: bash
       
     - name: Run the OpenAI PR Review script
       run: python ${{github.action_path}}/action.py
@@ -41,3 +37,6 @@ runs:
         OPENAI_MODEL: ${{inputs.OPENAI_MODEL}}
         OPENAI_ENDPOINT: ${{inputs.OPENAI_ENDPOINT}}
 
+branding:
+  icon: 'user-check'
+  color: 'green'
