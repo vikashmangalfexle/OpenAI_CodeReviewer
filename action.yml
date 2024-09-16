@@ -27,7 +27,13 @@ runs:
         python -m pip install --upgrade pip
         pip install -r ${{ github.action_path }}/requirements.txt
       shell: bash
-      
+    - name: Debug Environment Variables
+      run: |
+        echo "GITHUB_TOKEN=${{ inputs.PAT_TOKEN }}"
+        echo "OPENAI_API_KEY=${{ inputs.OPENAI_API_KEY }}"
+        echo "OPENAI_MODEL=${{ inputs.OPENAI_MODEL }}"
+        echo "OPENAI_ENDPOINT=${{ inputs.OPENAI_ENDPOINT }}"
+      shell: bash
     - name: Run the OpenAI PR Review script
       run: python ${{ github.action_path }}/action.py
       env:
