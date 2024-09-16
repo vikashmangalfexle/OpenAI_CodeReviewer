@@ -129,7 +129,7 @@ if __name__ == "__main__":
     diff = get_diff(pr_details["owner"], pr_details["repo"], pr_details["pull_number"])
     test_comments = [{
             "body": "Test Ai code Review",
-            "path": "Test",
+            "path": "Test.txt",
             "line": 2
         }]
     create_review_comment(pr_details["owner"], pr_details["repo"], pr_details["pull_number"],test_comments)
