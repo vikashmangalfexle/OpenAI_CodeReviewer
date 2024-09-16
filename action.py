@@ -102,13 +102,14 @@ def create_review_comment(owner, repo, pull_number, comments):
     review_body = {
         "event": "COMMENT",
         "body": "Automated code review comments"
+        "comments":comments
     }
     
     response = requests.post(url, headers=headers, json=review_body)
     if response.status_code != 200:
         raise Exception(f"Error creating review: {response.json()}")
     
-    review_id = response.json().get("id")
+    """review_id = response.json().get("id")
 
     for comment in comments:
         comment_url = f"{url}/{review_id}/comments"
@@ -119,7 +120,7 @@ def create_review_comment(owner, repo, pull_number, comments):
         }
         response = requests.post(comment_url, headers=headers, json=comment_body)
         if response.status_code != 201:
-            print(f"Error adding comment: {response.json()}")
+            print(f"Error adding comment: {response.json()}")"""
 
 if __name__ == "__main__":
     event_path = os.getenv("GITHUB_EVENT_PATH")
