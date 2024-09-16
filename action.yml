@@ -18,6 +18,8 @@ inputs:
 runs:
   using: 'composite'
   steps:
+    - name: Check out the action repository
+      uses: actions/checkout@v3
     - name: Set up Python environment
       run: |
         python -m venv .venv
