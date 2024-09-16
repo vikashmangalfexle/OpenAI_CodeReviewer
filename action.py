@@ -2,7 +2,7 @@ import os
 import json
 import requests
 
-GITHUB_TOKEN = os.getenv("GITHUB_TOKEN")
+GITHUB_TOKEN = os.getenv("PAT_TOKEN")
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 OPENAI_MODEL = os.getenv("OPENAI_MODEL")
 OPENAI_ENDPOINT = os.getenv("OPENAI_ENDPOINT")
