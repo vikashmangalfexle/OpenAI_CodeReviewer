@@ -20,20 +20,18 @@ runs:
   steps:
     - name: Check out the action repository
       uses: actions/checkout@v3
-    - name: List directory
-      run: ls -la
-      shell: bash
+
     - name: Set up Python environment
       run: |
         python -m venv .venv
         source .venv/bin/activate
-        pip install -r requirements.txt
+        pip install -r ./requirements.txt
       shell: bash  # Specify the shell to use
 
     - name: Run the OpenAI PR Review script
       run: |
         source .venv/bin/activate
-        python action.py
+        python ./action.py
       shell: bash  # Specify the shell to use
       env:
         GITHUB_TOKEN: ${{ inputs.GITHUB_TOKEN }}
