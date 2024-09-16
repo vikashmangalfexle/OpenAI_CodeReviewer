@@ -128,7 +128,7 @@ if __name__ == "__main__":
     pr_details = get_pr_details(event_path)
     diff = get_diff(pr_details["owner"], pr_details["repo"], pr_details["pull_number"])
     test_comments = [{
-            "body": "Test Ai code Review,
+            "body": "Test Ai code Review",
             "path": "Test",
             "line": 2
         }]
