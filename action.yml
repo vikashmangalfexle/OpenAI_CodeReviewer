@@ -39,5 +39,4 @@ runs:
       shell: bash
     - name: Run the OpenAI PR Review script
       run: python ${{ github.action_path }}/action.py
-      shell: bash
      
