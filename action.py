@@ -15,11 +15,18 @@ github = Github(GITHUB_TOKEN)
 def get_pr_details(event_path):
     with open(event_path, "r") as f:
         event_data = json.load(f)
-        print(event_data)
+
     repository = event_data["repository"]
     pull_request = event_data["number"]
 
-    pr = github.get_repo(repository["full_name"]).get_pull(pull_request)
+    print(f"Repository: {repository['full_name']}")
+    print(f"Pull Request Number: {pull_request}")
+
+    try:
+        pr = github.get_repo(repository["full_name"]).get_pull(pull_request)
+    except Exception as e:
+        print(f"Error retrieving pull request: {e}")
+        raise
 
     return {
         "owner": repository["owner"]["login"],
@@ -28,6 +35,7 @@ def get_pr_details(event_path):
         "title": pr.title,
         "description": pr.body or ""
     }
+
 
 def get_diff(owner, repo, pull_number):
     repo = github.get_repo(f"{owner}/{repo}")
