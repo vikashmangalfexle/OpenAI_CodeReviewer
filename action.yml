@@ -2,7 +2,7 @@ name: 'OpenAI PR Review'
 description: 'A GitHub Action that reviews PRs using OpenAI API'
 
 inputs:
-  GITHUB_TOKEN:
+  PAT_TOKEN:
     description: 'GitHub Token'
     required: true
   OPENAI_API_KEY:
@@ -29,7 +29,7 @@ runs:
       shell: bash
       
       env:
-        GITHUB_TOKEN: ${{ inputs.GITHUB_TOKEN }}
+        PAT_TOKEN: ${{ inputs.PAT_TOKEN }}
         OPENAI_API_KEY: ${{ inputs.OPENAI_API_KEY }}
         OPENAI_MODEL: ${{ inputs.OPENAI_MODEL }}
         OPENAI_ENDPOINT: ${{ inputs.OPENAI_ENDPOINT }}
