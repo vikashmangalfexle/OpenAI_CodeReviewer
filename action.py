@@ -42,7 +42,7 @@ def get_pr_details(event_path):
 
 def get_diff(owner, repo, pull_number):
     url = f"{GITHUB_API_URL}/repos/{owner}/{repo}/pulls/{pull_number}/files"
-    headers = {"Authorization": f"Bearer {GITHUB_TOKEN}"}
+    headers = {"Authorization": f"Bearer {GITHUB_TOKEN}","X-GitHub-Api-Version": "2022-11-28"}
 
     response = requests.get(url, headers=headers)
     if response.status_code != 200:
@@ -96,7 +96,8 @@ def create_review_comment(owner, repo, pull_number, comments):
     url = f"{GITHUB_API_URL}/repos/{owner}/{repo}/pulls/{pull_number}/reviews"
     headers = {
         "Authorization": f"Bearer {GITHUB_TOKEN}",
-        "Accept": "application/vnd.github.v3+json"
+        "Accept": "application/vnd.github.v3+json",
+        "X-GitHub-Api-Version": "2022-11-28"
     }
     review_body = {
         "event": "COMMENT",
